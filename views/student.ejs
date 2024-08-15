@@ -5,69 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student's Dashboard</title>
     <script src="/socket.io/socket.io.js"></script>
-    <style>  body {
-        font-family: 'Arial', sans-serif;
-        background-color: #eef2f7;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-    .container {
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        width: 100%;
-    }
-    h1 {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    input[type="text"] {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        font-size: 16px;
-    }
-    button {
-        width: 100%;
-        padding: 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-    button:hover {
-        background-color: #0056b3;
-    }</style>
+    <style>
+        /* Add your styles here */
+    </style>
     <script>
         const socket = io();
 
+        // Student joins the class room
+        const classId = '66bda16d0907961e7e8995d2';  // Replace with actual class ID
+        socket.emit('join-class', classId);
+
+        // Listen for new assignments from the teacher
+        socket.on('new-assignment', (data) => {
+            console.log('New assignment received:', data);
+            const assignment = document.createElement('p');
+            assignment.textContent = `New Assignment: ${data.title}`;
+            document.getElementById('assignments').appendChild(assignment);
+        });
+
+        // Listen for missed assignments when student reconnects
+        socket.on('missed-assignments', (assignments) => {
+            assignments.forEach(assignment => {
+                const assignmentElement = document.createElement('p');
+                assignmentElement.textContent = `Missed Assignment: ${assignment.title}`;
+                document.getElementById('assignments').appendChild(assignmentElement);
+            });
+        });
+
         function submitAssignment() {
             const assignmentId = document.getElementById('assignmentId').value;
-            const studentId = 'student-id';  // Replace with actual student ID
+            const studentId = '66bda1e90907961e7e8995e8';  // Replace with actual student ID
+            const submissionFile = 'file-path';  // Replace with actual file path or content
 
-            socket.emit('submit-assignment', { assignmentId, studentId });
+            socket.emit('submit-assignment', { assignmentId, studentId, submissionFile });
         }
-
-        socket.on('assignment-submitted', (data) => {
-            console.log('Assignment submitted:', data);
-        });
     </script>
 </head>
 <body>
-    <h1>Student's Dashboard</h1>
-    <input type="text" id="assignmentId" placeholder="Assignment ID">
-    <button onclick="submitAssignment()">Submit Assignment</button>
+    <div class="container">
+        <h1>Student's Dashboard</h1>
+        <input type="text" id="assignmentId" placeholder="Assignment ID">
+        <button onclick="submitAssignment()">Submit Assignment</button>
+        <div id="assignments"></div>
+    </div>
 </body>
 </html>

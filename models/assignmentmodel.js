@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const AssignmentSchema = new mongoose.Schema({
     title: String,
     description: String,
-    classId: mongoose.Schema.Types.ObjectId,
-    teacherId: mongoose.Schema.Types.ObjectId,
+    classId: String,
+    teacherId:String,
     status: { type: String, default: 'pending' },
     submissionDate: Date,
 });

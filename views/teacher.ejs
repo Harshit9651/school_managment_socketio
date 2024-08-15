@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teacher's Dashboard</title>
+    <script src="/socket.io/socket.io.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #eef2f7;
             margin: 0;
             padding: 0;
             display: flex;
@@ -16,10 +17,10 @@
             height: 100vh;
         }
         .container {
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
         }
@@ -29,55 +30,57 @@
             margin-bottom: 20px;
             text-align: center;
         }
-        input[type="text"],
-        textarea {
+        input[type="text"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
-        }
-        textarea {
-            resize: vertical;
         }
         button {
             width: 100%;
             padding: 10px;
-            background-color: #5cb85c;
-            color: #fff;
+            background-color: #007bff;
+            color: white;
             border: none;
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #4cae4c;
+            background-color: #0056b3;
         }
-</style>
-    <script src="/socket.io/socket.io.js"></script>
+        #notifications {
+            margin-top: 20px;
+        }
+    </style>
     <script>
         const socket = io();
 
         function createAssignment() {
             const title = document.getElementById('title').value;
             const description = document.getElementById('description').value;
-            const classId = document.getElementById('classId').value;
-            const teacherId = 'teacher-id';  // Replace with actual teacher ID
+            const classId = '66bda16d0907961e7e8995d2';  // Replace with actual class ID
+            const teacherId = '66bda3428e3eb64d0654409e';  // Replace with actual teacher ID
 
             socket.emit('create-assignment', { title, description, classId, teacherId });
         }
 
-        socket.on('new-assignment', (data) => {
-            console.log('New assignment created:', data);
+        socket.on('assignment-submitted', (data) => {
+            const notification = document.createElement('p');
+            notification.textContent = `Assignment submitted by student: ${data.studentId}`;
+            document.getElementById('notifications').appendChild(notification);
         });
     </script>
 </head>
 <body>
-    <h1>Teacher's Dashboard</h1>
-    <input type="text" id="title" placeholder="Title">
-    <textarea id="description" placeholder="Description"></textarea>
-    <input type="text" id="classId" placeholder="Class ID">
-    <button onclick="createAssignment()">Create Assignment</button>
+    <div class="container">
+        <h1>Teacher's Dashboard</h1>
+        <input type="text" id="title" placeholder="Assignment Title">
+        <input type="text" id="description" placeholder="Assignment Description">
+        <button onclick="createAssignment()">Create Assignment</button>
+        <div id="notifications"></div>
+    </div>
 </body>
 </html>
