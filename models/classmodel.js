@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const ClassSchema = new mongoose.Schema({
     name: String,
-    teacherIds: [mongoose.Schema.Types.ObjectId],
-    studentIds: [mongoose.Schema.Types.ObjectId],
+    teacherIds: String,
+    studentIds: String,
 });
 
 module.exports = mongoose.model('Class', ClassSchema);

@@ -8,18 +8,23 @@ const bodyParser = require('body-parser')
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-// const teacherRoutes = require('./routes/teacher');
-// const studentRoutes = require('./routes/student');
 
-const server = http.createServer(app);
+app.use(bodyParser.urlencoded({ extended: true }));
+const Routerroute = require('./routes/routes')
+ const server = http.createServer(app);
 const io = socketIo(server);
 require('./server/connection')
 
 app.use(express.json());
-// app.use('/teacher', teacherRoutes);
-// app.use('/student', studentRoutes);
 
+ const session = require('express-session');
+
+ app.use(session({
+    secret: 'hello', // Replace with a strong secret
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // Set to true if using HTTPS
+}));
 // WebSocket logic
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
@@ -36,6 +41,7 @@ io.on('connection', (socket) => {
         console.log('User disconnected:', socket.id);
     });
 });
+app.use('/', Routerroute);
 
 server.listen(3000, () => {
     console.log('Server is running on port 3000');

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const StudentSchema = new mongoose.Schema({
     name: String,
     email: String,
-    classId: mongoose.Schema.Types.ObjectId,
+    classId: String,
 });
 
 module.exports = mongoose.model('Student', StudentSchema);
