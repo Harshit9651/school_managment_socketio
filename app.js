@@ -30,7 +30,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
-}));
+ }));
 
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
@@ -82,6 +82,12 @@ io.on('connection', (socket) => {
     });
 });
 
+const assignmentRoutes = require('./routes/assignmetcreate'); 
+const submissionRoutes = require('./routes/assignmentsubmite'); 
+
+// Use the routes
+app.use('/assignments', assignmentRoutes);
+app.use('/submissions', submissionRoutes);
 app.use('/', Routerroute);
 
 server.listen(3000, () => {

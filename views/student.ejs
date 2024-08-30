@@ -23,7 +23,7 @@
             document.getElementById('assignments').appendChild(assignment);
         });
 
-        // Listen for missed assignments when student reconnects
+        // // Listen for missed assignments when student reconnects
         socket.on('missed-assignments', (assignments) => {
             assignments.forEach(assignment => {
                 const assignmentElement = document.createElement('p');
@@ -37,8 +37,30 @@
             const studentId = '66bda1e90907961e7e8995e8';  // Replace with actual student ID
             const submissionFile = 'file-path';  // Replace with actual file path or content
 
-            socket.emit('submit-assignment', { assignmentId, studentId, submissionFile });
+            // socket.emit('submit-assignment', { assignmentId, studentId, submissionFile });
         }
+        function submitAssignment() {
+    const assignmentId = document.getElementById('assignmentId').value;
+    const studentId = '66bda1e90907961e7e8995e8';  // Replace with actual student ID
+    const submissionFile = 'file-path';  // Replace with actual file path or content
+
+    // Use fetch to send a POST request to the server
+    fetch('/submissions/submitAssignment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ assignmentId, studentId, submissionFile })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Assignment submitted:', data);
+    })
+    .catch(error => {
+        console.error('Error submitting assignment:', error);
+    });
+}
+
     </script>
 </head>
 <body>
