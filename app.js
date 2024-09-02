@@ -101,3 +101,20 @@ app.get('/', (req, res) => {
 app.get('/te', (req, res) => {
     res.render("teacher.ejs");
 });
+
+
+    // Student submits an assignment
+    soceet.io('submit-assignment', async (data) => {
+        const { assignmentId, studentId, submissionFile } = data;
+
+        try {
+            const submission = new Submission({ assignmentId, studentId, submissionFile });
+            const savedSubmission = await submission.save();
+
+            // Notify the teacher of the submission
+            const assignment = await Assignment.findById(assignmentId);
+            io.to(assignment.teacherId).emit('assignment-submitted', savedSubmission);
+        } catch (error) {
+            console.error('Error submitting assignment:', error);
+        }
+    }); cyhchchhchc hgcggcgcgc ccgcgc c gc  vggvggvg vggv gv gv vgv v
