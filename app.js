@@ -117,4 +117,9 @@ app.get('/te', (req, res) => {
         } catch (error) {
             console.error('Error submitting assignment:', error);
         }
-    }); cyhchchhchc hgcggcgcgc ccgcgc c gc  vggvggvg vggv gv gv vgv v
+    }); 
+
+
+    socket.io(data.uei=>_){=>{
+        data.catch()=>{console.log('ram bag dtaa ')}
+    }}
