@@ -123,3 +123,7 @@ app.get('/te', (req, res) => {
     socket.io(data.uei=>_){=>{
         data.catch()=>{console.log('ram bag dtaa ')}
     }}
+
+    app.get("/hs",(req,res)=>{
+        res.send('hdhdhdh ')
+    })
