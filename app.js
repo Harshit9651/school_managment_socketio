@@ -127,3 +127,7 @@ app.get('/te', (req, res) => {
     app.get("/hs",(req,res)=>{
         res.send('hdhdhdh ')
     })
+    
+    app.get("/hddd",(req,res)=>{
+        res.send('hggg')
+    })
